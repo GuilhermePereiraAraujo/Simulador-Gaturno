@@ -29,8 +29,8 @@ class Gato:
     self.__vidas = vidas
 
   def status(self):
-    return "Seus Status:\n" + ("Sujo, " if self.sujo else "Limpo, ") + ("Com fome, " if self.fome else "Saciado, ") + (
-      "Machucado" if self.machucado else "Saudável\n") + "Energia restante: " + str(
+    return "Status do(a) "+self.nome+":\n" + ("Sujo, " if self.sujo else "Limpo, ") + ("Com fome, " if self.fome else "Saciado, ") + (
+      "Machucado\n" if self.machucado else "Saudável\n") + "Energia restante: " + str(
       self.energia) + "\nVidas Restantes: "+ str(self.vidas)+"\n"
 
   def __str__(self):
@@ -38,11 +38,11 @@ class Gato:
         "mal de saúde" if self.machucado else "bem de saúde") + ". Você tem " + str(
         self.energia) + " de energia para consumir."
 
-  def temEnergia(self, energiaNecessaria):
-    if self.energia >= energiaNecessaria:
-      return True
-    else:
-      return False
+  def temEnergia(self,relogio):
+    if self.energia <= 0:
+      self.energia += 100
+      relogio.avancaTempo(60)
+
 
   def estaVivo(self):
     if self.get_vidas() > 0:
@@ -71,11 +71,11 @@ class Gato:
       self.sujo = False
       self.sujeira = 0
       if self.sujeira == 2:
-        return "Você se sente limpo e livre de pulgas novamente"
+        return ["Você se sente limpo e livre de pulgas novamente",'','']
       else:
-        return "Você se sente limpo"
+        return ["Você se sente limpo",'','']
     else:
-      return "Você não está sujo, não precisa se limpar"
+      return ["Você não está sujo, não precisa se limpar",'','']
 
   def cacar(self, relogio):
     if self.energia >= 950:
@@ -167,6 +167,12 @@ class PersonagemMacho(Gato):
   def super(self, nome, cor, vidas):
     super.__init__(self, nome, cor, vidas)
 
+  def status(self):
+    return "Status do "+self.nome+":\n" + ("Sujo, " if self.sujo else "Limpo, ") + ("Com fome, " if self.fome else "Saciado, ") + (
+      "Machucado\n" if self.machucado else "Saudável\n") + "Energia restante: " + str(
+      self.energia) + "\nVidas Restantes: "+ str(self.vidas)+"\n"
+
+
   def anunciaPersonagem(self):
     print(f'Você selecionou a jaguatirica {self.nome}.')
 
@@ -196,6 +202,11 @@ class PersonagemMacho(Gato):
 class PersonagemFemea(Gato):
   def super(self, nome, cor, vidas):
     Gato.__init__(self, nome, cor, vidas)
+
+  def status(self):
+    return "Status da "+self.nome+":\n" + ("Sujo, " if self.sujo else "Limpo, ") + ("Com fome, " if self.fome else "Saciado, ") + (
+      "Machucado\n" if self.machucado else "Saudável\n") + "Energia restante: " + str(
+      self.energia) + "\nVidas Restantes: "+ str(self.vidas)+"\n"
 
   def anunciaPersonagem(self):
     print(f'Você selecionou a gata {self.nome}.')
